@@ -19,7 +19,7 @@ vmstat_out=$(vmstat --unit M)
 vmstat_disk_out=$(vmstat -d)
 df_out=$(df -BM /)
 
-#usage info
+# Usage info
 hostname=$(hostname -f)
 memory_free=$(echo "$meminfo_out" | egrep "MemFree:" | awk '{print substr($2, 1, length($2)-3)}' | xargs)
 cpu_idle=$(echo "$vmstat_out" | tail -1 | awk '{print $15}' | xargs)
