@@ -11,9 +11,10 @@ The LCA team will use the data to generate reports for future resource planning 
 ## Quick Start
 ### Command to create / start / stop PostgreSQL container
 
-`$ ./scripts/psql_docker.sh start|stop|create [db_username][db_password]`
-
 ```
+// General form
+$ ./scripts/psql_docker.sh start|stop|create [db_username][db_password]
+
 // To create and start PostgreSQL container
 $ ./scripts/psql_docker.sh create <db_username> <db_password>
 
@@ -24,22 +25,58 @@ $ ./scripts/psql_docker.sh start
 $ ./scripts/psql_docker.sh stop
 ```
 
-### Before any connect to the psql instance
+### Before connect to the psql instance
 ```
 $ export PGPASSWORD=<db_password>
 ```
 
 ### Command to connect to the psql instance
 ```
-// connect to the psql instance
-$ psql -h localhost -U <db_username> -W
+// General form
+$ psql -h [hostname] -U <db_username> -d [db_name]
+
+// Example
+$ psql -h localhost -U root -d host_agent
 ```
 
-### Command to Data Definition Language (DDL)
+### `ddl.sql` statement
 ```
-$ psql -h localhost -U postgres -d host_agent -f sql/ddl.sql
+// General form
+$ psql -h [hostname] -U [db_username] -d [db_name] -f sql/ddl.sql
+
+// Example
+$ psql -h localhost -U root -d host_agent -f sql/ddl.sql
 ```
 
+### `host_info.sh` script
+```
+// General form
+$ ./scripts/host_info.sh [psql_host] [psql_port] [db_name] [psql_user] [psql_password]
+
+// Example
+$ ./scripts/host_info.sh localhost 5432 host_agent root pass
+```
+
+### `host_usage.sh` script
+```
+// General form
+$ ./scripts/host_usage.sh [psql_host] [psql_port] [db_name] [psql_user] [psql_password]
+
+// Example
+$ ./scripts/host_usage.sh localhost 5432 host_agent root pass
+```
+
+### To run `host_usage.sh` script every minute
+```
+// Edit crontab file
+$ crontab -e
+
+// Set to run `host_usage.sh` every minute
+* * * * * bash /home/centos/dev/jrvs/bootcamp/linux_sql/host_agent/scripts/host_usage.sh localhost 5432 host_agent postgres password > /tmp/host_usage.log
+
+// List crontab jobs
+$ crontab -l
+```
 
 ## Implemenation
 

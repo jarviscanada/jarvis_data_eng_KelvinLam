@@ -1,4 +1,4 @@
-#! /bin/bash
+#!/bin/bash
 
 #Setup arguments
 action=$1
